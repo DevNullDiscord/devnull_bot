@@ -12,6 +12,8 @@ class RebuildCommand extends Command {
   async exec(message: Message) {
     const msg: Message = await message.channel.send("Rebuilding...");
     try {
+      await execAsync("rm -r build", { cwd: process.cwd() });
+      await execAsync("rm .tsbuild", { cwd: process.cwd() });
       const res = await execAsync("npx tsc", { cwd: process.cwd() });
       if (res.error != null)
         await msg.edit(`Build error.\`\`\`\n${res.stdout}\n\`\`\``);
