@@ -8,11 +8,13 @@ interface L33tArguments {
 class L33TCommand extends Command {
   constructor() {
     super("l33t", {
-      aliases: ["leet"],
+      aliases: ["l33t", "leet"],
       args: [
         {
           id: "msg",
           type: "string",
+          match: "text",
+          default: "",
         },
       ],
     });
