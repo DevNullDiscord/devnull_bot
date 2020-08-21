@@ -18,7 +18,7 @@ class ReloadCommand extends Command {
   async exec(message: Message) {
     const msg: Message = await message.channel.send("Reloading...");
     this.client.commandHandler = new CommandHandler(this.client, {
-      directory: Path.resolve(__dirname, "./bot/commands/"),
+      directory: Path.resolve(__dirname, "../../bot/commands/"),
       prefix: cmdPrefix,
       defaultCooldown: 1000,
       allowMention: true,
@@ -26,10 +26,10 @@ class ReloadCommand extends Command {
       ignorePermissions: ownerID,
     });
     this.client.listenerHandler = new ListenerHandler(this.client, {
-      directory: Path.resolve(__dirname, "./bot/listeners/"),
+      directory: Path.resolve(__dirname, "../../bot/listeners/"),
     });
     this.client.inhibitorHandler = new InhibitorHandler(this.client, {
-      directory: Path.resolve(__dirname, "./bot/inhibitors/"),
+      directory: Path.resolve(__dirname, "../../bot/inhibitors/"),
     });
     this.client.commandHandler.useListenerHandler(this.client.listenerHandler);
     this.client.commandHandler.useInhibitorHandler(
