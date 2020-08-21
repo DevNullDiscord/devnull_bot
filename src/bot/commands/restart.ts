@@ -3,8 +3,8 @@ import { Message } from "discord.js";
 
 class RestartCommand extends Command {
   constructor() {
-    super("rebuild", {
-      aliases: ["rebuild"],
+    super("restart", {
+      aliases: ["restart"],
       ownerOnly: true,
     });
   }
