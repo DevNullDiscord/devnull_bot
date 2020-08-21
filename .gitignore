@@ -1,0 +1,5 @@
+.env
+build/
+.tsbuild
+.vscode
+node_modules/
