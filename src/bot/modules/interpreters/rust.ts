@@ -1,5 +1,4 @@
 import { execAsync } from "../../../lib/proc";
-import { ensureInterpreterDir } from "./";
 import Path from "path";
 import fs from "fs-extra";
 import { interpreterDir } from "../../../config";
@@ -12,7 +11,7 @@ edition = "2018"
 
 [dependencies]`;
 
-ensureInterpreterDir("rs");
+fs.ensureDir(Path.resolve(interpreterDir, "rs"));
 
 const rustInterpreter: InterpreterDef = {
   langID: "rs",
