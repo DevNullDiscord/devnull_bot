@@ -43,7 +43,8 @@ class InterpreterCommand extends Command {
       args: [
         {
           id: "content",
-          match: "rest",
+          type: "string",
+          match: "text",
           default: "",
         },
       ],
@@ -61,19 +62,16 @@ class InterpreterCommand extends Command {
         emb.addField("Status", "Running");
         const msg = await message.channel.send(emb);
         try {
-          const res = await interp.interpret(
-            `${message.author.id}${interp.extension}`,
-            args.content,
-          );
+          const res = await interp.interpret(message.author.id, args.content);
           emb.setColor(res.hadError ? 0xff0000 : 0x00ff00);
           emb.fields[0].value = "Complete";
-          const out = trimForDiscord(res.output, 1992);
+          const out = trimForDiscord(res.output.replace(/`/g, "`​"), 1992);
           emb.setDescription(`\`\`\`\n${out}\n\`\`\``);
           await msg.edit(emb);
         } catch (e) {
           emb.setColor(0xff0000);
           const m = trimForDiscord(e.toString(), 1992);
-          emb.setDescription(`\`\`\`\n${m}\n\`\`\``);
+          emb.setDescription(`\`\`\`\n${m.replace(/`/g, "`​")}\n\`\`\``);
           emb.fields[0].value = "Failed";
           await msg.edit(emb);
         }

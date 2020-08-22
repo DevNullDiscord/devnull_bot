@@ -25,6 +25,7 @@ export async function rebuild(
   try {
     await execAsync("rm -r build", { cwd: process.cwd() });
     await execAsync("rm .tsbuild", { cwd: process.cwd() });
+    await execAsync("npm install", { cwd: process.cwd() });
     const res = await execAsync("npx tsc", { cwd: process.cwd() });
     if (res.error != null)
       await msg.edit(`Build error.\`\`\`\n${res.stdout}\n\`\`\``);
