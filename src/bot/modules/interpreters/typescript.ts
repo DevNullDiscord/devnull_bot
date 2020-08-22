@@ -2,8 +2,11 @@ import { InterpreterDef, InterpreterResult } from "../../../lib/interpret";
 import { denoEval } from "../../../lib/deno";
 import { interpreterDir } from "../../../config";
 import Path from "path";
+import fs from "fs-extra";
 
 const tsDir = Path.resolve(interpreterDir, "ts");
+
+fs.ensureDirSync(tsDir);
 
 const tsInterpreter: InterpreterDef = {
   langID: "ts",
