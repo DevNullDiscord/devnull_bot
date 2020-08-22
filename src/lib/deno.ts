@@ -25,7 +25,7 @@ export async function denoEval(
         .replace(reg, "")
         .trim()}`;
       fs.writeFileSync(fPath, src);
-      const proc = exec(
+      const { pid } = exec(
         `deno run --quiet --no-remote ${fPath}`,
         { timeout: 5000 },
         (err, stdout, stderr) => {
@@ -38,7 +38,11 @@ export async function denoEval(
             try {
               if (err.killed) {
                 output = "error: Script timed out.";
-                proc.kill("SIGKILL");
+                try {
+                  execSync(`kill -9 ${pid}`);
+                } catch (e) {
+                  console.error(e);
+                }
               } else if (stderr.trim().length > 0) {
                 const s = stripAnsi(stderr.trim()).replace(
                   new RegExp(fPath.replace(/\\/g, "/"), "g"),
