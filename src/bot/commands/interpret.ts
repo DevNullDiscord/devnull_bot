@@ -40,6 +40,7 @@ class InterpreterCommand extends Command {
   constructor() {
     super("interpret", {
       aliases: ["interpret", "eval"],
+      ownerOnly: true,
       args: [
         {
           id: "content",
