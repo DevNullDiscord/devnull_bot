@@ -49,7 +49,7 @@ function interval() {
             await fkill(proc.pid);
             console.log(`Process ${proc.pid} forcefully killed.`);
           } else {
-            if (res.memory >= 150 * 1024 * 1024) {
+            if (res.memory >= 2 * 1024 * 1024) {
               // Too much memory, kill it
               console.log(
                 `Process ${proc.pid} using too much memory. (${(
