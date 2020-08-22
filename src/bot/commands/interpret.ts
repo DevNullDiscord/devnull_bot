@@ -44,7 +44,7 @@ class InterpreterCommand extends Command {
         {
           id: "content",
           type: "string",
-          match: "text",
+          match: "rest",
           default: "",
         },
       ],
@@ -62,7 +62,7 @@ class InterpreterCommand extends Command {
         emb.addField("Status", "Running");
         const msg = await message.channel.send(emb);
         try {
-          const res = await interp.interpret(message.author.id, args.content);
+          const res = await interp.interpret(message.author.id, block.source);
           emb.setColor(res.hadError ? 0xff0000 : 0x00ff00);
           emb.fields[0].value = "Complete";
           const out = trimForDiscord(res.output.replace(/`/g, "`​"), 1992);
