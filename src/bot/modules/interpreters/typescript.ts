@@ -7,6 +7,7 @@ interface WebberDenoResponse extends WebberResponse {
 
 const tsInterpreter: InterpreterDef = {
   langID: "ts",
+  extension: ".ts",
   interpret(filename, source): Promise<InterpreterResult> {
     return new Promise(async (resolve, reject) => {
       const res: AxiosResponse<WebberDenoResponse> = await axios.post(

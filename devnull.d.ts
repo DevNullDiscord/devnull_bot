@@ -18,5 +18,6 @@ declare interface WebberResponse {
 
 declare interface InterpreterDef {
   langID: string;
+  extension: string;
   interpret(filename: string, source: string): Promise<InterpreterResult>;
 }
