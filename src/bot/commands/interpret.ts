@@ -57,17 +57,17 @@ class InterpreterCommand extends Command {
       const block = blocks[0];
       const interp = interpreters[block.language];
       if (interp != undefined) {
-        const filename: string = `${message.author.id}${interp.extension}`;
         const emb: MessageEmbed = new MessageEmbed();
-        emb.setTitle(filename);
         emb.addField("Status", "Running");
         const msg = await message.channel.send(emb);
         try {
           const res = await interp.interpret(message, block.source);
+          emb.setTitle(res.fileName);
           emb.setColor(res.hadError ? 0xff0000 : 0x00ff00);
           emb.fields[0].value = "Complete";
           const out = trimForDiscord(res.output.replace(/`/g, "`​"), 1992);
           emb.setDescription(`\`\`\`\n${out}\n\`\`\``);
+          emb.setFooter(`Runtime ${res.runtime} ms`);
           await msg.edit(emb);
         } catch (e) {
           emb.setColor(0xff0000);

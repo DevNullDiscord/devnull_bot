@@ -40,3 +40,8 @@ const interp: string = process.env["INTERPRETER_DIRECTORY"] || "./interpreter";
 export const interpreterDir: string = Path.isAbsolute(interp)
   ? interp
   : Path.resolve(interp);
+
+/**
+ * The path to cargo
+ */
+export const cargoPath: string = process.env["CARGO_PATH"] || "cargo";

@@ -3,8 +3,7 @@ import { InterpreterDef, InterpreterResult } from "../../../lib/interpret";
 import { Message } from "discord.js";
 import Path from "path";
 import fs from "fs-extra";
-import { interpreterDir } from "../../../config";
-import { exec } from "child_process";
+import { interpreterDir, cargoPath } from "../../../config";
 
 let cargoToml: string = `[package]
 name = "{packageName}"
@@ -40,7 +39,7 @@ const rustInterpreter: InterpreterDef = {
     await fs.writeFile(fmain, source);
     const fileName = `${message.author.username}_rs`;
     let _s = Date.now();
-    const buildRes = await execAsync("cargo build", { cwd: fpath });
+    const buildRes = await execAsync(`${cargoPath} build`, { cwd: fpath });
     let ret: InterpreterResult;
     if (buildRes.error != null) {
       ret = {
@@ -51,7 +50,10 @@ const rustInterpreter: InterpreterDef = {
       };
     } else {
       _s = Date.now();
-      const res = await execAsync("cargo run", { cwd: fpath, timeout: 5000 });
+      const res = await execAsync(`${cargoPath} run`, {
+        cwd: fpath,
+        timeout: 5000,
+      });
       if (res.error != null) {
         ret = {
           hadError: true,
