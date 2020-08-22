@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { exec, execSync } from "child_process";
 import stripAnsi from "strip-ansi";
 import fs, { existsSync } from "fs";
 
@@ -29,6 +29,7 @@ export async function denoEval(
         `deno run --quiet --no-remote ${fPath}`,
         { timeout: 5000 },
         (err, stdout, stderr) => {
+          const pid = proc.pid;
           const runtime = Date.now() - _start;
           fs.unlinkSync(fPath);
           let output = "";
@@ -37,8 +38,12 @@ export async function denoEval(
             hadError = true;
             try {
               if (err.killed) {
-                proc.kill("SIGTERM");
                 output = "error: Script timed out.";
+                try {
+                  execSync(`kill ${pid}`);
+                } catch (e) {
+                  // DO NOTHING
+                }
               } else if (stderr.trim().length > 0) {
                 const s = stripAnsi(stderr.trim()).replace(
                   new RegExp(fPath.replace(/\\/g, "/"), "g"),
