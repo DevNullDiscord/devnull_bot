@@ -1,5 +1,6 @@
 import { Command } from "discord-akairo";
 import { Message } from "discord.js";
+import { restart } from "../../../lib/admin";
 
 class RestartCommand extends Command {
   constructor() {
@@ -9,10 +10,7 @@ class RestartCommand extends Command {
     });
   }
   async exec(message: Message) {
-    await message.channel.send("Restarting...");
-    setTimeout(() => {
-      process.exit(0);
-    }, 3000);
+    restart.call(this, message);
   }
 }
 
