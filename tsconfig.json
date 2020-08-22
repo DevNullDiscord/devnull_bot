@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "incremental": true,
     "target": "esnext",
     "module": "commonjs",
     "outDir": "./build",
     "rootDir": "./src",
-    "tsBuildInfoFile": "./.tsbuild",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

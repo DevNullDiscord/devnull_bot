@@ -1,31 +1,16 @@
-import axios, { AxiosResponse } from "axios";
-import {
-  InterpreterDef,
-  InterpreterResult,
-  WebberResponse,
-  WebberException,
-} from "../../../lib/interpret";
+import { InterpreterDef, InterpreterResult } from "../../../lib/interpret";
+import { denoEval } from "../../../lib/deno";
+import { interpreterDir } from "../../../config";
+import Path from "path";
 
-interface WebberDenoResponse extends WebberResponse {
-  eval?: InterpreterResult;
-  error?: string;
-}
+const tsDir = Path.resolve(interpreterDir, "ts");
 
 const tsInterpreter: InterpreterDef = {
   langID: "ts",
   extension: ".ts",
-  interpret(filename, source): Promise<InterpreterResult> {
-    return new Promise(async (resolve, reject) => {
-      const res: AxiosResponse<WebberDenoResponse> = await axios.post(
-        "https://webber.envis10n.dev/api/v1/deno",
-        { id: filename, source, language: "ts" },
-      );
-      if (res.data.error != undefined) {
-        reject(new WebberException(res.data.error));
-      } else if (res.data.eval != undefined) {
-        resolve(res.data.eval);
-      }
-    });
+  async interpret(message, source): Promise<InterpreterResult> {
+    const fPath = Path.resolve(tsDir, message.author.id + ".ts");
+    return await denoEval("ts", source, message.author.id, fPath);
   },
 };
 
