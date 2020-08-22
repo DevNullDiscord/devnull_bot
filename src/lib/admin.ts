@@ -1,4 +1,5 @@
 import { cmdPrefix, ownerID } from "../config";
+import fs from "fs-extra";
 import {
   Command,
   CommandHandler,
@@ -8,6 +9,9 @@ import {
 import Path from "path";
 import { Message } from "discord.js";
 import { execAsync } from "./proc";
+
+const buildDir = Path.resolve(process.cwd(), "build");
+const restartFile = Path.resolve(process.cwd(), ".restart");
 
 interface IRebuildArgs {
   full?: boolean;
@@ -23,8 +27,7 @@ export async function rebuild(
   }
   const msg: Message = await message.channel.send("Rebuilding...");
   try {
-    await execAsync("rm -r build", { cwd: process.cwd() });
-    await execAsync("rm .tsbuild", { cwd: process.cwd() });
+    await fs.remove(buildDir);
     await execAsync("npm install", { cwd: process.cwd() });
     const res = await execAsync("npx tsc", { cwd: process.cwd() });
     if (res.error != null)
@@ -32,12 +35,26 @@ export async function rebuild(
     else {
       await msg.edit("Rebuilding...\nDone.");
       if (args.full) {
-        await reload.call(this, message);
+        restart.call(this, message);
       }
     }
   } catch (e) {
     await msg.edit(`Error\`\`\`\n${e.message}\n\`\`\``);
   }
+}
+
+export async function restart(this: Command, message: Message) {
+  const msg = await message.channel.send("Restarting...");
+  await fs.ensureFile(restartFile);
+  await fs.writeFile(
+    restartFile,
+    JSON.stringify({
+      guild: msg.guild?.id,
+      message: msg.id,
+      channel: msg.channel.id,
+    }),
+  );
+  process.exit(0);
 }
 
 export async function reload(this: Command, message: Message) {
