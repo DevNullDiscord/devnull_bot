@@ -1,6 +1,7 @@
 import { exec, execSync } from "child_process";
 import stripAnsi from "strip-ansi";
 import fs, { existsSync } from "fs";
+import { processes } from "../lib/interpret";
 
 interface IDenoResult {
   runtime: number;
@@ -29,6 +30,10 @@ export async function denoEval(
         `deno run --quiet --no-remote ${fPath}`,
         { timeout: 5000 },
         (err, stdout, stderr) => {
+          const proc = processes.get(id);
+          if (proc != undefined) {
+            proc.alive = false;
+          }
           const runtime = Date.now() - _start;
           fs.unlinkSync(fPath);
           let output = "";
@@ -38,11 +43,6 @@ export async function denoEval(
             try {
               if (err.killed) {
                 output = "error: Script timed out.";
-                try {
-                  execSync(`kill -9 ${pid}`);
-                } catch (e) {
-                  console.error(e);
-                }
               } else if (stderr.trim().length > 0) {
                 const s = stripAnsi(stderr.trim()).replace(
                   new RegExp(fPath.replace(/\\/g, "/"), "g"),
@@ -74,6 +74,10 @@ export async function denoEval(
           });
         },
       );
+      processes.set(id, {
+        alive: true,
+        pid,
+      });
     }
   });
 }
