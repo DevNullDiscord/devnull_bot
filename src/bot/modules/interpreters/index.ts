@@ -1,3 +1,4 @@
+import { InterpreterDef } from "../../../lib/interpret";
 import js from "./javascript";
 import ts from "./typescript";
 import rs from "./rust";

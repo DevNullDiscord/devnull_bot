@@ -1,4 +1,10 @@
 import axios, { AxiosResponse } from "axios";
+import {
+  InterpreterDef,
+  InterpreterResult,
+  WebberResponse,
+  WebberException,
+} from "../../../lib/interpret";
 
 interface WebberDenoResponse extends WebberResponse {
   eval?: InterpreterResult;

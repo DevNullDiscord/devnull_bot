@@ -1,7 +1,10 @@
 import { execAsync } from "../../../lib/proc";
+import { InterpreterDef, InterpreterResult } from "../../../lib/interpret";
+import { Message } from "discord.js";
 import Path from "path";
 import fs from "fs-extra";
 import { interpreterDir } from "../../../config";
+import { exec } from "child_process";
 
 let cargoToml: string = `[package]
 name = "{packageName}"
@@ -17,10 +20,10 @@ const rustInterpreter: InterpreterDef = {
   langID: "rs",
   extension: ".rs",
   async interpret(
-    filename: string,
+    message: Message,
     source: string,
   ): Promise<InterpreterResult> {
-    const fpath = Path.resolve(interpreterDir, "rs", filename);
+    const fpath = Path.resolve(interpreterDir, "rs", message.author.id);
     const ctoml = Path.resolve(fpath, "Cargo.toml");
     const srcDir = Path.resolve(fpath, "src");
     const fmain = Path.resolve(srcDir, "main.rs");
@@ -31,38 +34,42 @@ const rustInterpreter: InterpreterDef = {
     await fs.writeFile(
       ctoml,
       cargoToml
-        .replace("{packageName}", filename)
-        .replace("{authorName}", filename),
+        .replace("{packageName}", `${message.author.username}_rs`)
+        .replace("{authorName}", message.author.username),
     );
     await fs.writeFile(fmain, source);
+    const fileName = `${message.author.username}_rs`;
     let _s = Date.now();
     const buildRes = await execAsync("cargo build", { cwd: fpath });
+    let ret: InterpreterResult;
     if (buildRes.error != null) {
-      return {
+      ret = {
         hadError: true,
         runtime: Date.now() - _s,
         output: buildRes.stderr,
-        fileName: filename + this.extension,
+        fileName,
       };
     } else {
       _s = Date.now();
       const res = await execAsync("cargo run", { cwd: fpath, timeout: 5000 });
       if (res.error != null) {
-        return {
+        ret = {
           hadError: true,
           runtime: Date.now() - _s,
           output: res.stderr,
-          fileName: filename + this.extension,
+          fileName,
         };
       } else {
-        return {
+        ret = {
           hadError: false,
           runtime: Date.now() - _s,
           output: res.stdout,
-          fileName: filename + this.extension,
+          fileName,
         };
       }
     }
+    await execAsync(`rm -r ${fpath}`, { cwd: process.cwd() });
+    return ret;
   },
 };
 
