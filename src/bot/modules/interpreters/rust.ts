@@ -45,7 +45,7 @@ const rustInterpreter: InterpreterDef = {
       ret = {
         hadError: true,
         runtime: Date.now() - _s,
-        output: buildRes.stderr,
+        output: buildRes.stderr.replace(new RegExp(fpath, "g"), fileName),
         fileName,
       };
     } else {
@@ -58,7 +58,7 @@ const rustInterpreter: InterpreterDef = {
         ret = {
           hadError: true,
           runtime: Date.now() - _s,
-          output: res.stderr,
+          output: res.stderr.replace(new RegExp(fpath, "g"), fileName),
           fileName,
         };
       } else {
