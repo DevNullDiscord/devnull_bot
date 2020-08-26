@@ -70,7 +70,7 @@ class TempCommand extends Command {
           k = CelciusToKelvin(c);
           emb.addField("Celcius", `${c.toFixed(2)}${degree}C`);
           emb.addField("Farenheit", `${f.toFixed(2)}${degree}F`);
-          emb.addField("Kelvin", `${k}${degree}K`);
+          emb.addField("Kelvin", `${k.toFixed(2)}K`);
           break;
         case "f":
           // farenheit
@@ -79,14 +79,14 @@ class TempCommand extends Command {
           k = FarenheitToKelvin(f);
           emb.addField("Farenheit", `${f.toFixed(2)}${degree}F`);
           emb.addField("Celcius", `${c.toFixed(2)}${degree}C`);
-          emb.addField("Kelvin", `${k}${degree}K`);
+          emb.addField("Kelvin", `${k.toFixed(2)}K`);
           break;
         case "k":
           // kelvin
           k = args.temp;
           c = KelvinToCelcius(k);
           f = KelvinToFarenheit(k);
-          emb.addField("Kelvin", `${k}${degree}K`);
+          emb.addField("Kelvin", `${k.toFixed(2)}K`);
           emb.addField("Celcius", `${c.toFixed(2)}${degree}C`);
           emb.addField("Farenheit", `${f.toFixed(2)}${degree}F`);
           break;
