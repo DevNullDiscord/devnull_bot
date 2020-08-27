@@ -34,7 +34,7 @@ function FarenheitToCelcius(temp: number): number {
 class TempCommand extends Command {
   constructor() {
     super("temp", {
-      regex: /(\d+(?:\.\d+)?) ?(?:degrees )?(celcius|fahrenheit|c|f)/i,
+      regex: /(\-?\d+(?:\.\d+)?) ?(?:degrees )?(c|f)(?:elcius|ahrenheit)?\b/i,
       cooldown: 10000,
       ratelimit: 2,
     });
@@ -48,17 +48,18 @@ class TempCommand extends Command {
       const converter: TempConverter = converters[mType];
       let reply: string = "";
       let fix: number = 2;
+      let fix2: number = tVal % 1 == 0 ? 0 : 2;
       let v: number;
       switch (mType) {
         case "c":
           v = converter.f(tVal);
           if (v % 1 == 0) fix = 0;
-          reply = `\`${v.toFixed(fix)}F\``;
+          reply = `*${tVal.toFixed(fix2)}°C is* ***${v.toFixed(fix)}°F***`;
           break;
         case "f":
           v = converter.c(tVal);
           if (v % 1 == 0) fix = 0;
-          reply = `\`${v.toFixed(fix)}C\``;
+          reply = `*${tVal.toFixed(fix2)}°F is* ***${v.toFixed(fix)}°C***`;
           break;
       }
       await message.channel.send(reply);
