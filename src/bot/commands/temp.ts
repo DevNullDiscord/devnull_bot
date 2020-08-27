@@ -34,7 +34,7 @@ function FarenheitToCelcius(temp: number): number {
 class TempCommand extends Command {
   constructor() {
     super("temp", {
-      regex: /(\d+(?:\.\d+)?) ?(?:degrees )?(celcius|farenheit|c|f)/i,
+      regex: /(\d+(?:\.\d+)?) ?(?:degrees )?(celcius|fahrenheit|c|f)/i,
       cooldown: 10000,
       ratelimit: 2,
     });
