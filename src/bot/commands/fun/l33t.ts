@@ -25,8 +25,8 @@ class L33TCommand extends Command {
     });
   }
 
-  exec(message: Message, args: L33tArguments) {
-    if (args.msg == "") return; // ignore empty data.
+  async exec(message: Message, args: L33tArguments): Promise<Message> {
+    if (args.msg.trim() == "") throw "No message provided.";
     const msg = args.msg
       .replace(/the/gi, "t3h")
       .replace(/owned/gi, "pwn3d")
@@ -41,7 +41,7 @@ class L33TCommand extends Command {
       .replace(/o/gi, "0")
       .replace(/T/g, "7")
       .replace(/S/g, "5");
-    return message.reply(msg);
+    return message.util!.reply(msg);
   }
 }
 
