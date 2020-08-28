@@ -51,9 +51,9 @@ class Ball8Command extends Command {
   async exec(message: Message, args: Ball8Args): Promise<Message> {
     if (args.msg == null)
       return message.util!.reply("Please ask a question to get an answer.");
+    const i: number = Math.round(await rand.srandInRange(answers.length - 1));
     rand.randomize(answers);
-    const answer: string =
-      answers[await rand.srandInRange(answers.length - 1, 0)];
+    const answer: string = answers[i];
     return message.util!.reply(`*${args.msg}*\n**${answer}**`);
   }
 }
