@@ -2,7 +2,7 @@ import { Command } from "discord-akairo";
 import { Message } from "discord.js";
 
 interface L33tArguments {
-  msg: string;
+  msg: string | null;
 }
 
 class L33TCommand extends Command {
@@ -19,14 +19,15 @@ class L33TCommand extends Command {
           id: "msg",
           type: "string",
           match: "text",
-          default: "",
+          default: null,
         },
       ],
     });
   }
 
   async exec(message: Message, args: L33tArguments): Promise<Message> {
-    if (args.msg.trim() == "") throw "No message provided.";
+    if (args.msg == null)
+      return message.util!.reply("No message content to translate.");
     const msg = args.msg
       .replace(/the/gi, "t3h")
       .replace(/owned/gi, "pwn3d")
