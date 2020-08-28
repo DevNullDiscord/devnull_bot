@@ -11,6 +11,12 @@ class RebuildCommand extends Command {
   constructor() {
     super("rebuild", {
       aliases: ["rebuild"],
+      description: {
+        content:
+          "Recompile the bot's source code, optionally fully updating and restarting.",
+        usage: "[--full|-F]",
+      },
+      category: "admin",
       ownerOnly: true,
       args: [
         {

@@ -6,6 +6,10 @@ class ReloadCommand extends Command {
   constructor() {
     super("reload", {
       aliases: ["reload"],
+      description: {
+        content: "Reload the bot's handlers.",
+      },
+      category: "admin",
       ownerOnly: true,
     });
   }

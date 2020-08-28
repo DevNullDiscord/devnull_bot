@@ -9,6 +9,11 @@ class L33TCommand extends Command {
   constructor() {
     super("l33t", {
       aliases: ["l33t", "leet"],
+      description: {
+        content: "Convert a message into l33t speak.",
+        usage: "<content>",
+      },
+      category: "fun",
       args: [
         {
           id: "msg",
@@ -21,6 +26,7 @@ class L33TCommand extends Command {
   }
 
   exec(message: Message, args: L33tArguments) {
+    if (args.msg == "") return; // ignore empty data.
     const msg = args.msg
       .replace(/the/gi, "t3h")
       .replace(/owned/gi, "pwn3d")

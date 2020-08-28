@@ -6,6 +6,10 @@ class RestartCommand extends Command {
   constructor() {
     super("restart", {
       aliases: ["restart"],
+      description: {
+        content: "Restart the bot's process entirely.",
+      },
+      category: "admin",
       ownerOnly: true,
     });
   }

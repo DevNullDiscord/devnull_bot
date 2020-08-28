@@ -35,6 +35,13 @@ class TempCommand extends Command {
   constructor() {
     super("temp", {
       regex: /(\-?\d+(?:\.\d+)?) ?(?:degrees )?(c|f)(?:elcius|ahrenheit)?\b/i,
+      description: {
+        content:
+          "Converts a Fahrenheit or Celcius temperature value in a message.",
+        usage:
+          "[number]C|F, [number] C|F, [number] degrees C|F, [number] degrees celcius|fahrenheit",
+      },
+      category: "regex",
       cooldown: 10000,
       ratelimit: 2,
     });

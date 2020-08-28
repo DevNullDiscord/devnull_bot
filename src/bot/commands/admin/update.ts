@@ -7,6 +7,10 @@ class UpdateCommand extends Command {
   constructor() {
     super("update", {
       aliases: ["update"],
+      description: {
+        content: "Force a git pull to get the latest changes.",
+      },
+      category: "admin",
       ownerOnly: true,
     });
   }

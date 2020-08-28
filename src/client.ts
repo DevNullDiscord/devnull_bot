@@ -24,6 +24,8 @@ class DevNullClient extends AkairoClient {
       allowMention: true,
       ignoreCooldown: ownerID,
       ignorePermissions: ownerID,
+      handleEdits: true,
+      commandUtil: true,
     });
     this.listenerHandler = new ListenerHandler(this, {
       directory: Path.resolve(__dirname, "./bot/listeners/"),

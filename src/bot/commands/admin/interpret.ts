@@ -1,6 +1,6 @@
 import { Command } from "discord-akairo";
 import { Message, MessageEmbed } from "discord.js";
-import interpreters from "../modules/interpreters";
+import interpreters from "../../modules/interpreters";
 
 interface ICodeBlock {
   language: string;
@@ -40,6 +40,11 @@ class InterpreterCommand extends Command {
   constructor() {
     super("interpret", {
       aliases: ["interpret", "eval"],
+      description: {
+        content: "Interpret and evaluate a command block.",
+        usage: "<codeblock>",
+      },
+      category: "admin",
       ownerOnly: true,
       args: [
         {
