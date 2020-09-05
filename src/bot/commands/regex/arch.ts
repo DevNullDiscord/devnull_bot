@@ -12,8 +12,12 @@ class ArchCommand extends Command {
   }
   exec(message: Message, args: { match: RegExpMatchArray }) {
     if (Date.now() - lastTime < 60000 * 15) return;
-    if (args.match[0] == "ᵃʳᶜʰ") message.channel.send("ᶦ ᵘˢᵉ ᵃʳᶜʰ ᵇᵗʷ");
-    else message.channel.send("*I use arch btw*");
+    let msg: string = "";
+    if (args.match[0] == "ᵃʳᶜʰ") msg = "ᶦ ᵘˢᵉ ᵃʳᶜʰ ᵇᵗʷ";
+    else msg = "*I use arch btw*";
+    setTimeout(() => {
+      message.channel.send(msg);
+    }, 1500);
     lastTime = Date.now();
   }
 }
