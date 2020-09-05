@@ -4,8 +4,9 @@
   "description": "Discord bot for /dev/null",
   "main": "build/index.js",
   "scripts": {
-    "build": "tsc",
-    "test": "jest"
+    "build": "npm run clean && npm i && tsc",
+    "test": "jest",
+    "clean": "node scripts/cleanup.js"
   },
   "author": "envis10n <envis10n@envis10n.dev>",
   "license": "MIT",

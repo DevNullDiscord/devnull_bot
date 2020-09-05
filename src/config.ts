@@ -41,6 +41,8 @@ export const interpreterDir: string = Path.isAbsolute(interp)
   ? interp
   : Path.resolve(interp);
 
+console.log(interpreterDir);
+
 /**
  * The path to cargo
  */

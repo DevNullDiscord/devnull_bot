@@ -1,6 +1,5 @@
 import { Command } from "discord-akairo";
 import { Message } from "discord.js";
-import { execAsync } from "../../../lib/proc";
 import { rebuild } from "../../../lib/admin";
 
 interface IRebuildArgs {
