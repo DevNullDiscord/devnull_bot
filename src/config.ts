@@ -41,9 +41,16 @@ export const interpreterDir: string = Path.isAbsolute(interp)
   ? interp
   : Path.resolve(interp);
 
-console.log(interpreterDir);
-
 /**
  * The path to cargo
  */
 export const cargoPath: string = process.env["CARGO_PATH"] || "cargo";
+
+let dataDir: string = process.env["DATA_DIR"] || "./_data";
+
+if (!Path.isAbsolute(dataDir)) dataDir = Path.resolve(process.cwd(), dataDir);
+
+/**
+ * The directory to save storage data.
+ */
+export const dataPath: string = dataDir;
