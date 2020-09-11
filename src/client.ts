@@ -6,6 +6,7 @@ import {
   InhibitorHandler,
 } from "discord-akairo";
 import Path from "path";
+import { getUserProfilePicData, setUserProfilePicData } from "./storage";
 
 class DevNullClient extends AkairoClient {
   constructor() {
@@ -38,6 +39,23 @@ class DevNullClient extends AkairoClient {
     this.listenerHandler.loadAll();
     this.inhibitorHandler.loadAll();
     this.commandHandler.loadAll();
+
+    // Listen for when notKamui changes their profile pic
+    const didNotKamuiChangeTheirProfilePicAgain = async () => {
+      const notKamuiUserId = "339763440677814272";
+      const notKamui = await this.users.fetch(notKamuiUserId);
+      const profilePicData = getUserProfilePicData(notKamui);
+      if (notKamui.avatar !== profilePicData.avatarID) {
+        await setUserProfilePicData(notKamui.id, {
+          ...profilePicData,
+          avatarID: notKamui.avatar,
+        });
+        this.emit("profile-pic-changed", notKamui);
+      }
+      const oneHour = 60 * 60 * 1000;
+      setTimeout(didNotKamuiChangeTheirProfilePicAgain, oneHour);
+    };
+    didNotKamuiChangeTheirProfilePicAgain();
   }
 }
 
