@@ -22,16 +22,18 @@ async function storageLoop() {
   }, 30000);
 }
 
-function storageShutdown() {
+function shutdown() {
   console.log("Saving storage...");
   storage.saveSync();
   console.log("Done.");
 }
 
-process.on("SIGINT", () => {
-  storageShutdown();
-  process.exit(0);
-});
+process.on("exit", shutdown);
+process.on("beforeExit", shutdown);
+process.on("SIGINT", shutdown); // CTRL+C
+process.on("SIGUSR1", shutdown); // Kill PID
+process.on("SIGUSR2", shutdown); // Kill PID
+process.on("uncaughtException", shutdown);
 
 console.log("Starting up...");
 main();
