@@ -22,16 +22,15 @@ async function storageLoop() {
   }, 30000);
 }
 
-function storageShutdown() {
+process.on("exit", () => {
   console.log("Saving storage...");
   storage.saveSync();
   console.log("Done.");
-}
-
-process.on("SIGINT", () => {
-  storageShutdown();
-  process.exit(0);
 });
+process.on("SIGINT", () => process.exit(0));
+process.on("SIGUSR1", () => process.exit(0));
+process.on("SIGUSR2", () => process.exit(0));
+process.on("uncaughtException", () => process.exit(1));
 
 console.log("Starting up...");
 main();
