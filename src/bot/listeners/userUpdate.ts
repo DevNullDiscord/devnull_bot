@@ -2,15 +2,6 @@ import { Listener } from "discord-akairo";
 import Discord from "discord.js";
 import * as storage from "../../storage";
 
-interface IUserAvatarChange {
-  hash: string | null;
-  timestamp: number;
-}
-
-interface IUserData {
-  updates: IUserAvatarChange[];
-}
-
 class UserUpdateListener extends Listener {
   constructor() {
     super("userUpdate", {
