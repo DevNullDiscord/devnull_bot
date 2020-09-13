@@ -4,6 +4,10 @@ import Path from "path";
 import { Message } from "discord.js";
 import { execAsync } from "./proc";
 import { cmdPrefix } from "../config";
+import REPL from "repl";
+import stream from "stream";
+import * as storage from "../storage";
+import * as rand from "./rand";
 
 const restartFile = Path.resolve(process.cwd(), ".restart");
 const bugPath = Path.resolve(process.cwd(), cmdPrefix);
@@ -97,3 +101,15 @@ export async function update(this: Command, message: Message) {
   }
   _bState = false;
 }
+
+const output = new stream.PassThrough();
+export const adminRepl = REPL.start({
+  prompt: "",
+  input: process.stdin,
+  output,
+});
+
+adminRepl.context["_api"] = {
+  storage,
+  rand,
+};
