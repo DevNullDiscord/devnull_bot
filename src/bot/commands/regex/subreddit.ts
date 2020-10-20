@@ -16,7 +16,7 @@ class SubredditCommand extends Command {
       return;
     }
 
-    message.reply(`https://reddit.com/${match[0]}`);
+    message.reply(`https://reddit.com/${match[1]}`);
   }
 }
 
