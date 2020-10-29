@@ -54,3 +54,8 @@ if (!Path.isAbsolute(dataDir)) dataDir = Path.resolve(process.cwd(), dataDir);
  * The directory to save storage data.
  */
 export const dataPath: string = dataDir;
+
+/**
+ * API Key for CovidActNow.org
+ */
+export const covidAPIKey: string = process.env["COVID_API_KEY"] || "";
