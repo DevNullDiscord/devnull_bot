@@ -7,7 +7,7 @@ interface SubredditCommandArgs {
 class SubredditCommand extends Command {
   constructor() {
     super("subreddit", {
-      regex: /\b(r\/[a-z0-9_]+)\b/i,
+      regex: /(?<!reddit.com\/)\b(r\/[a-z0-9_]+)\b/i,
       category: "regex",
     });
   }
