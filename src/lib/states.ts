@@ -1,4 +1,4 @@
-interface IState {
+export interface IState {
   State: string;
   Abbrev: string;
   Code: string;
@@ -262,10 +262,12 @@ export const usStates: IState[] = [
   },
 ];
 
-export function getStateCode(input: string): string | undefined {
+export function getStateCode(input: string): IState | undefined {
   const reg = new RegExp(input, "i");
-  const res = usStates.find(
-    (s) => s.State.match(reg) != null || s.Code.match(reg) != null,
+  const res = usStates.find((s) =>
+    input.length <= 2
+      ? s.Code.match(reg) != null
+      : s.Code.match(reg) != null || s.State.match(reg) != null,
   );
-  return res?.Code;
+  return res;
 }
