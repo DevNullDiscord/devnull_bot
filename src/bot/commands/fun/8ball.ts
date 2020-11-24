@@ -6,7 +6,7 @@ interface Ball8Args {
   msg: string | null;
 }
 
-let answers: string[] = [
+const answers: string[] = [
   "It is certain.",
   "As I see it, yes.",
   "Reply hazy, try again.",

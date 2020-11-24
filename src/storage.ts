@@ -1,13 +1,12 @@
 import Path from "path";
 import fs from "fs-extra";
-import Discord from "discord.js";
 import { dataPath } from "./config";
 
 if (!fs.existsSync(dataPath)) {
   fs.ensureDirSync(dataPath);
 }
 
-const storage: { [key: string]: any } = {};
+const storage: { [key: string]: unknown } = {};
 
 export async function loadStorage() {
   for (const fname of await fs.readdir(dataPath)) {

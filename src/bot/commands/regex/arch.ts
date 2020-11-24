@@ -1,7 +1,7 @@
 import { Command } from "discord-akairo";
 import { Message } from "discord.js";
 
-let lastTime: number = 0;
+let lastTime = 0;
 
 class ArchCommand extends Command {
   constructor() {
@@ -12,7 +12,7 @@ class ArchCommand extends Command {
   }
   exec(message: Message, args: { match: RegExpMatchArray }) {
     if (Date.now() - lastTime < 60000 * 15) return;
-    let msg: string = "";
+    let msg = "";
     if (args.match[0] == "ᵃʳᶜʰ") msg = "ᶦ ᵘˢᵉ ᵃʳᶜʰ ᵇᵗʷ";
     else msg = "*I use arch btw*";
     setTimeout(() => {

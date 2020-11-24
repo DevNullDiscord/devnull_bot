@@ -1,6 +1,5 @@
 import { Command } from "discord-akairo";
 import { Message } from "discord.js";
-import { execAsync } from "../../../lib/proc";
 import { update } from "../../../lib/admin";
 
 class UpdateCommand extends Command {

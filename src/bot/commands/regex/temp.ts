@@ -1,6 +1,5 @@
 import { Command } from "discord-akairo";
 import { Message } from "discord.js";
-import { MessageEmbed } from "discord.js";
 
 interface TempArgs {
   match: RegExpMatchArray | null;
@@ -34,7 +33,7 @@ function FarenheitToCelcius(temp: number): number {
 class TempCommand extends Command {
   constructor() {
     super("temp", {
-      regex: /(\-?\d+(?:\.\d+)?) ?(?:degrees )?(c|f)(?:elcius|ahrenheit)?\b/i,
+      regex: /(-?\d+(?:\.\d+)?) ?(?:degrees )?(c|f)(?:elcius|ahrenheit)?\b/i,
       description: {
         content:
           "Converts a Fahrenheit or Celcius temperature value in a message.",
@@ -53,9 +52,9 @@ class TempCommand extends Command {
       const tVal: number = parseFloat(mTemp);
       if (isNaN(tVal) || !isFinite(tVal)) return;
       const converter: TempConverter = converters[mType];
-      let reply: string = "";
-      let fix: number = 2;
-      let fix2: number = tVal % 1 == 0 ? 0 : 2;
+      let reply = "";
+      let fix = 2;
+      const fix2: number = tVal % 1 == 0 ? 0 : 2;
       let v: number;
       switch (mType) {
         case "c":

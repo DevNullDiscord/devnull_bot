@@ -3,7 +3,7 @@ import { MessageEmbed } from "discord.js";
 import { Message } from "discord.js";
 import { getStateRecent } from "../../../lib/covid";
 
-function lerp(a: number, b: number, t: number = 0.5): number {
+function lerp(a: number, b: number, t = 0.5): number {
   t = t > 1 ? 1 : t < 0 ? 0 : t;
   return (1 - t) * a + t * b;
 }

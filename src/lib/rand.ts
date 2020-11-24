@@ -23,7 +23,7 @@ export async function srand(): Promise<number> {
  * @param max Maximum value. Default: 1
  * @param min Minimum value. Default: 0
  */
-export function srandInRangeSync(max: number = 1, min: number = 0): number {
+export function srandInRangeSync(max = 1, min = 0): number {
   return srandSync() * (max - min) + min;
 }
 
@@ -32,10 +32,7 @@ export function srandInRangeSync(max: number = 1, min: number = 0): number {
  * @param max Maximum value. Default: 1
  * @param min Minimum value. Default: 0
  */
-export async function srandInRange(
-  max: number = 1,
-  min: number = 0,
-): Promise<number> {
+export async function srandInRange(max = 1, min = 0): Promise<number> {
   return (await srand()) * (max - min) + min;
 }
 
@@ -74,5 +71,5 @@ export function srandBoolSync(): boolean {
  * @param arr The array to be randomly sorted.
  */
 export function randomize<T>(arr: T[]): T[] {
-  return arr.sort((a, b) => srandInRangeSync(1, -1));
+  return arr.sort(() => srandInRangeSync(1, -1));
 }
