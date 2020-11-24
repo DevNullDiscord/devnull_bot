@@ -24,7 +24,7 @@ class LMGTFYCommand extends Command {
   async exec(message: Message, args: { search: string | null }) {
     if (args.search == null)
       return await message.util?.send("Missing search terms.");
-    const urlBase: string = "https://lmgtfy.app/?q=";
+    const urlBase = "https://lmgtfy.app/?q=";
     const url = urlBase + args.search.trim().split(" ").join("+");
     return await message.util?.send(url);
   }

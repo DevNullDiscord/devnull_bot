@@ -12,7 +12,7 @@ import * as rand from "./rand";
 const restartFile = Path.resolve(process.cwd(), ".restart");
 const bugPath = Path.resolve(process.cwd(), cmdPrefix);
 
-let _bState: boolean = false;
+let _bState = false;
 
 interface IRebuildArgs {
   full?: boolean;

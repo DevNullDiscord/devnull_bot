@@ -1,4 +1,4 @@
-import { Command, PrefixSupplier } from "discord-akairo";
+import { Command } from "discord-akairo";
 import { Message } from "discord.js";
 import { MessageEmbed } from "discord.js";
 
@@ -49,6 +49,7 @@ class HelpCommand extends Command {
           // ignore empty commands.
         }
       }
+
       return message.util!.send(emb);
     }
     const embed = new MessageEmbed()

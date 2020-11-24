@@ -1,5 +1,5 @@
 import { Command } from "discord-akairo";
-import { Message, MessageEmbed } from "discord.js";
+import { Message } from "discord.js";
 import { adminRepl } from "../../../lib/admin";
 
 interface ICodeBlock {
@@ -7,13 +7,9 @@ interface ICodeBlock {
   source: string;
 }
 
-function containsCodeblock(content: string): boolean {
-  return /```\w\w\n?[\S\s]+```\n?/g.test(content);
-}
-
 function parseCodeblocks(content: string): ICodeBlock[] {
   const blocks: ICodeBlock[] = [];
-  const mReg: RegExp = /```(\w\w)\n?/g;
+  const mReg = /```(\w\w)\n?/g;
   let match: RegExpExecArray | null = mReg.exec(content);
   while (match != null) {
     const s_off: number = match.index;
@@ -31,7 +27,7 @@ function parseCodeblocks(content: string): ICodeBlock[] {
   return blocks;
 }
 
-function trimForDiscord(input: string, max: number = 2000): string {
+function trimForDiscord(input: string, max = 2000): string {
   if (input.length > max) input = input.substring(0, input.length - max);
   return input;
 }

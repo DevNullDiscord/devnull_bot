@@ -1,4 +1,4 @@
-import { exec, execSync } from "child_process";
+import { exec } from "child_process";
 import stripAnsi from "strip-ansi";
 import fs, { existsSync } from "fs";
 import { processes } from "../lib/interpret";
