@@ -8,7 +8,7 @@ interface IDadReg {
 class DadBotCommand extends Command {
   constructor() {
     super("dadbot", {
-      regex: /\b(?:i am|i'm)\b(.*)(?:[.?!]|\n)?/i,
+      regex: /\b(?:i am|i'm)\b([^.]*)(?:[.?!]|\n)?/i,
       category: "regex",
     });
   }
