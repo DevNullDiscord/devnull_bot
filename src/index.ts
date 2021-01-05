@@ -5,6 +5,7 @@ import { discordToken, interpreterDir } from "./config";
 import client from "./client";
 import fs from "fs-extra";
 import * as storage from "./storage";
+import { adminRepl } from "./lib/admin";
 
 async function main(): Promise<void> {
   await fs.ensureDir(interpreterDir);
@@ -12,6 +13,7 @@ async function main(): Promise<void> {
   console.log("Storage system loaded.");
   storageLoop();
   await client.login(discordToken);
+  adminRepl.context["_discord"] = client;
 }
 
 async function storageLoop() {
