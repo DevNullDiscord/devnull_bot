@@ -19,7 +19,7 @@ class DadBotCommand extends Command {
   exec(message: Message, args: IDadReg) {
     if (Date.now() - lastTime < DAD_COOLDOWN) return; // ignore if cooldown not reached.
     const sub: string = args.match[1].trim();
-    message.util!.reply(`Hi ${sub}, I'm dad.`);
+    message.reply(`Hi ${sub}, I'm dad.`);
     lastTime = Date.now();
   }
 }
