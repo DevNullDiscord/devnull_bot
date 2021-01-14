@@ -12,12 +12,18 @@ export async function getAttachments(message: Message): Promise<IAttachment[] | 
   const res: IAttachment[] = [];
   for (const ent of message.attachments.values()) {
     if (ent.name == undefined) continue;
-    const body = (await axios.get(ent.url)).data;
-    res.push({
-      data: Buffer.from(body),
-      name: ent.name,
-      url: ent.url,
-    });
+    try {
+      const body = (await axios.get(ent.url)).data;
+      if (typeof body == "string") {
+        res.push({
+          data: Buffer.from(body),
+          name: ent.name,
+          url: ent.url,
+        });
+      }
+    } catch (e) {
+      // ignore
+    }
   }
   return res;
 }
