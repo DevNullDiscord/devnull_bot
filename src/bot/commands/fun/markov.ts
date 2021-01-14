@@ -1,10 +1,11 @@
 import { Command } from "discord-akairo";
 import { Message } from "discord.js";
 import { mg } from "../../../lib/markov";
+import { getAttachments } from "../../../lib/attach";
 
 interface MarkovArgs {
   msg: string | null;
-  parse?: number;
+  parse?: boolean;
   reset?: boolean;
 }
 
@@ -14,7 +15,7 @@ class MarkovCommand extends Command {
       aliases: ["markov"],
       description: {
         content: "Generate text using a markov model.",
-        usage: "| markov --parse <N> <input>",
+        usage: "| markov --parse <input>",
       },
       category: "fun",
       args: [
@@ -31,8 +32,7 @@ class MarkovCommand extends Command {
         },
         {
           id: "parse",
-          match: "option",
-          type: "number",
+          match: "flag",
           flag: ["--parse", "-P"],
         }
       ],
@@ -51,14 +51,26 @@ class MarkovCommand extends Command {
       } else {
         return message.reply("I am unable to comply.");
       }
-    } else if (args.parse != undefined) {
-      if (args.msg == null)
-        return message.util!.reply("Please provide input.");
+    } else if (args.parse) {
+      if (args.msg == null) {
+        const attachments = await getAttachments(message);
+        if (attachments == null || attachments.length == 0) {
+          return message.util!.reply("Please provide input.");
+        } else {
+          const att = attachments.find((v) => /.*\.txt/.test(v.name));
+          if (att == undefined) return message.util!.reply("Please provide input.");
+          args.msg = att.data.toString();
+        }
+      }
+      const lines = args.msg.replace(/\r\n/g, "\n").split("\n");
       const st = Date.now();
-      mg.parse(args.msg, args.parse);
-      return message.reply(`Parsed in ${(Date.now() - st).toFixed(2)}ms`);
+      for (const line of lines) {
+        mg.parse(line, 2);
+      }
+      const et = Date.now();
+      return message.reply(`Parsed in ${(et - st)} ms`);
     } else if (mg.prefixes.length > 0) {
-      let res = mg.generate(150);
+      let res = mg.generate(300);
       if (res.length > 2000) res = res.substring(0, 2000);
       return message.channel.send(res);
     } else {
