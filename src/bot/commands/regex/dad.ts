@@ -5,7 +5,7 @@ interface IDadReg {
   match: RegExpMatchArray;
 }
 
-const DAD_COOLDOWN = 1000 * 60 * 5; // 5 minutes
+const DAD_COOLDOWN = 1000 * 60 * 60; // 60 minutes
 
 let lastTime = 0;
 
