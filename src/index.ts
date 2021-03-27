@@ -6,6 +6,7 @@ import client from "./client";
 import fs from "fs-extra";
 import * as storage from "./storage";
 import { adminRepl } from "./lib/admin";
+import { initEvergreen } from "./lib/evergreen";
 
 async function main(): Promise<void> {
   await fs.ensureDir(interpreterDir);
@@ -14,6 +15,7 @@ async function main(): Promise<void> {
   storageLoop();
   await client.login(discordToken);
   adminRepl.context["_discord"] = client;
+  await initEvergreen(client);
 }
 
 async function storageLoop() {
