@@ -25,7 +25,7 @@ export async function initEvergreen(client: Discord.Client): Promise<void> {
         if (!edata.last_status) return;
         const channel = await client.channels.fetch(edata.channel) as Discord.TextChannel;
         const caller = async () => {
-            if (Date.now() - edata.last_update < 10000) return;
+            if (Date.now() - edata.last_update < 1000 * 60 * 60) return;
             edata.last_status = await getEvergreenStatus();
             edata.last_update = Date.now();
             channel.send(`Is the Evergreen still stuck?\n${edata.last_status ? "Yes." : "Nope! It's free!"}`);
