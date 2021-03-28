@@ -16,6 +16,10 @@ export async function getEvergreenStatus(): Promise<boolean> {
 
 let etimeout: NodeJS.Timeout | null = null;
 
+function getEverGivenRole(channel: Discord.TextChannel): Discord.Role | undefined {
+    return channel.guild.roles.cache.find(role => role.name === 'Ever Given');
+}
+
 export async function initEvergreen(client: Discord.Client): Promise<void> {
     if (etimeout != null) return;
     const estore = storage.getCollection<IEvergreenMon>("evergreen-mon");
@@ -24,11 +28,24 @@ export async function initEvergreen(client: Discord.Client): Promise<void> {
         const edata = estore["evergreen"];
         if (!edata.last_status) return;
         const channel = await client.channels.fetch(edata.channel) as Discord.TextChannel;
+        const r = getEverGivenRole(channel)
+        if (r) {
+            channel.send(`Test mention: <@&${r.id}>`)
+        } else {
+            channel.send('Unable to find Ever Given role')
+        }
         const caller = async () => {
             if (Date.now() - edata.last_update < 1000 * 60 * 60) return;
-            edata.last_status = await getEvergreenStatus();
+            const isStillStuck = edata.last_status = await getEvergreenStatus();
             edata.last_update = Date.now();
-            channel.send(`Is the Evergreen still stuck?\n${edata.last_status ? "Yes." : "Nope! It's free!"}`);
+            let everGivenRoleMention = '';
+            if (!isStillStuck) {
+                const everGivenRole = getEverGivenRole(channel)
+                if (everGivenRole?.id) {
+                    everGivenRoleMention = `<@&${everGivenRole.id}>`;
+                }
+            }
+            channel.send(`Is the Ever Given still stuck?\n${isStillStuck ? "Yes." : `Nope! It's free! ${everGivenRoleMention}`}`);
             if (!edata.last_status) {
                 // FREE LETS STOP SPAMMING
                 if (etimeout != null)
