@@ -25,7 +25,6 @@ export async function initEvergreen(client: Discord.Client): Promise<void> {
         const edata = estore["evergreen"];
         if (!edata.last_status) return;
         const channel = await client.channels.fetch(edata.channel) as Discord.TextChannel;
-        channel.messages.resolve
         const caller = async () => {
             if (Date.now() - edata.last_update < 1000 * 60 * 60) return;
             edata.last_status = await getEvergreenStatus();
