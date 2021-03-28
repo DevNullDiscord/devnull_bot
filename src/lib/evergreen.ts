@@ -6,6 +6,7 @@ export interface IEvergreenMon {
     channel: string;
     last_update: number;
     last_status: boolean;
+    role_id?: string;
 }
 
 export async function getEvergreenStatus(): Promise<boolean> {
@@ -24,16 +25,20 @@ export async function initEvergreen(client: Discord.Client): Promise<void> {
         const edata = estore["evergreen"];
         if (!edata.last_status) return;
         const channel = await client.channels.fetch(edata.channel) as Discord.TextChannel;
+        channel.messages.resolve
         const caller = async () => {
             if (Date.now() - edata.last_update < 1000 * 60 * 60) return;
             edata.last_status = await getEvergreenStatus();
             edata.last_update = Date.now();
-            channel.send(`Is the Evergreen still stuck?\n${edata.last_status ? "Yes." : "Nope! It's free!"}`);
+            await channel.send(`Is the Ever Given still stuck?\n${edata.last_status ? "Yes." : "Nope! It's free!"}`);
             if (!edata.last_status) {
                 // FREE LETS STOP SPAMMING
                 if (etimeout != null)
                     clearInterval(etimeout);
                 etimeout = null;
+                if (edata.role_id != undefined) {
+                    await channel.send(`<@&${edata.role_id}> FREEDOM!`);
+                }
             }
         };
         etimeout = setInterval(async () => {
