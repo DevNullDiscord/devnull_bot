@@ -6,7 +6,7 @@ let lastTime = 0;
 class ArchCommand extends Command {
   constructor() {
     super("arch", {
-      regex: /\b(?:arch|manjaro|antergos|endeavour|artix|arco)\b|ᵃʳᶜʰ/i,
+      regex: /\b(?:arch|manjaro|antergos|endeavour|artix|arco|garuda)\b|ᵃʳᶜʰ/i,
       category: "regex",
     });
   }
