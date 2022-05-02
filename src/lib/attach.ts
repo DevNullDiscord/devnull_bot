@@ -7,7 +7,9 @@ export interface IAttachment {
   url: string;
 }
 
-export async function getAttachments(message: Message): Promise<IAttachment[] | null> {
+export async function getAttachments(
+  message: Message,
+): Promise<IAttachment[] | null> {
   if (message.attachments.size == 0) return null;
   const res: IAttachment[] = [];
   for (const ent of message.attachments.values()) {

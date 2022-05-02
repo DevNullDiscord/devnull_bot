@@ -4,7 +4,7 @@ import * as storage from "../../../storage";
 import * as evergreen from "../../../lib/evergreen";
 
 interface IEvergreenArgs {
-  role: Role,
+  role: Role;
 }
 
 class EvergreenInitCommand extends Command {
@@ -18,7 +18,7 @@ class EvergreenInitCommand extends Command {
         {
           id: "role",
           type: "role",
-        }
+        },
       ],
       category: "admin",
       channel: "guild",
@@ -26,7 +26,8 @@ class EvergreenInitCommand extends Command {
     });
   }
   async exec(message: Message, args: IEvergreenArgs) {
-    const estore = storage.getCollection<evergreen.IEvergreenMon>("evergreen-mon");
+    const estore =
+      storage.getCollection<evergreen.IEvergreenMon>("evergreen-mon");
     if (estore["evergreen"] == undefined) {
       message.reply("Not currently monitoring in a channel.");
     } else {

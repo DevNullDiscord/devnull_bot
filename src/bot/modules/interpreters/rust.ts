@@ -96,7 +96,10 @@ const rustInterpreter: InterpreterDef = {
         res = {
           hadError: true,
           runtime: Date.now() - _s,
-          output: (reason as unknown as ExecError).stderr.replace(new RegExp(fpath, "g"), fileName),
+          output: (reason as unknown as ExecError).stderr.replace(
+            new RegExp(fpath, "g"),
+            fileName,
+          ),
           fileName,
         };
       }

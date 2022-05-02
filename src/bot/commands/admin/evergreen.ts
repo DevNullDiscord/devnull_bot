@@ -16,17 +16,18 @@ class EvergreenInitCommand extends Command {
     });
   }
   async exec(message: Message) {
-    const estore = storage.getCollection<evergreen.IEvergreenMon>("evergreen-mon");
+    const estore =
+      storage.getCollection<evergreen.IEvergreenMon>("evergreen-mon");
     if (estore["evergreen"] == undefined) {
-        estore["evergreen"] = {
-            channel: message.channel.id,
-            last_status: true,
-            last_update: 0,
-        };
-        await evergreen.initEvergreen(message.client);
-        message.reply("Now monitoring the Evergreen in this channel.");
+      estore["evergreen"] = {
+        channel: message.channel.id,
+        last_status: true,
+        last_update: 0,
+      };
+      await evergreen.initEvergreen(message.client);
+      message.reply("Now monitoring the Evergreen in this channel.");
     } else {
-        message.reply("Already actively monitoring.");
+      message.reply("Already actively monitoring.");
     }
   }
 }

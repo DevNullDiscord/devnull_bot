@@ -25,9 +25,9 @@ class ReadyListener extends Listener {
       } = JSON.parse(await fs.readFile(restartFile, { encoding: "utf-8" }));
       if (restart.guild) {
         const guild = await this.client.guilds.fetch(restart.guild);
-        const messages = await (guild.channels.resolve(
-          restart.channel,
-        ) as Discord.TextChannel).messages.fetch();
+        const messages = await (
+          guild.channels.resolve(restart.channel) as Discord.TextChannel
+        ).messages.fetch();
         messages.get(restart.message)?.edit("Restarting...\nDone.");
       }
       await fs.remove(restartFile);

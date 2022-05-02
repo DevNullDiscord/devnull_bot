@@ -28,13 +28,13 @@ class MarkovCommand extends Command {
         {
           id: "reset",
           match: "flag",
-          flag: ["--reset", "-R"]
+          flag: ["--reset", "-R"],
         },
         {
           id: "parse",
           match: "flag",
           flag: ["--parse", "-P"],
-        }
+        },
       ],
     });
   }
@@ -43,7 +43,8 @@ class MarkovCommand extends Command {
       const ownerID = this.handler.client.ownerID;
       if (
         (typeof ownerID == "string" && message.author.id == ownerID) ||
-        (ownerID instanceof Array && ownerID.find((v) => v == message.author.id))
+        (ownerID instanceof Array &&
+          ownerID.find((v) => v == message.author.id))
       ) {
         mg.prefixes = [];
         mg.suffixes = {};
@@ -58,7 +59,8 @@ class MarkovCommand extends Command {
           return message.util!.reply("Please provide input.");
         } else {
           const att = attachments.find((v) => /.*\.txt/.test(v.name));
-          if (att == undefined) return message.util!.reply("Please provide input.");
+          if (att == undefined)
+            return message.util!.reply("Please provide input.");
           args.msg = att.data.toString();
         }
       }
@@ -68,7 +70,7 @@ class MarkovCommand extends Command {
         mg.parse(line, 2);
       }
       const et = Date.now();
-      return message.reply(`Parsed in ${(et - st)} ms`);
+      return message.reply(`Parsed in ${et - st} ms`);
     } else if (mg.prefixes.length > 0) {
       let res = mg.generate(300);
       if (res.length > 2000) res = res.substring(0, 2000);
