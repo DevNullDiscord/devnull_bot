@@ -1,5 +1,5 @@
 import { execAsync } from "../../../lib/proc";
-import { exec, ExecOptions } from "child_process";
+import { exec, ExecException, ExecOptions } from "child_process";
 import {
   InterpreterDef,
   InterpreterResult,
@@ -10,6 +10,12 @@ import Path from "path";
 import fs from "fs-extra";
 import { interpreterDir, cargoPath } from "../../../config";
 
+export interface ExecError {
+  err: ExecException;
+  stdout: string;
+  stderr: string;
+}
+
 const execPromise: (
   command: string,
   options: ExecOptions,
@@ -17,7 +23,7 @@ const execPromise: (
   new Promise((resolve, reject) => {
     const { pid } = exec(command, (err, stdout, stderr) => {
       if (err) {
-        return reject({ err, stdout, stderr });
+        return reject({ err, stdout, stderr } as ExecError);
       }
       resolve({ pid, stdout });
     });
@@ -90,7 +96,7 @@ const rustInterpreter: InterpreterDef = {
         res = {
           hadError: true,
           runtime: Date.now() - _s,
-          output: reason.stderr.replace(new RegExp(fpath, "g"), fileName),
+          output: (reason as unknown as ExecError).stderr.replace(new RegExp(fpath, "g"), fileName),
           fileName,
         };
       }

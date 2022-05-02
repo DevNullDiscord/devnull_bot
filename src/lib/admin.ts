@@ -43,7 +43,7 @@ export async function rebuild(
       }
     }
   } catch (e) {
-    await msg.edit(`Error\`\`\`\n${e.message}\n\`\`\``);
+    await msg.edit(`Error\`\`\`\n${(e as Error).message}\n\`\`\``);
   }
   if (await fs.pathExists(bugPath)) {
     await fs.rmdir(bugPath);
@@ -97,7 +97,7 @@ export async function update(this: Command, message: Message) {
       await msg.edit(`\`\`\`\n${res.stderr}\n${res.stdout}\n\`\`\``);
     else await msg.edit("Updating...\nDone.");
   } catch (e) {
-    await msg.edit(`Error\`\`\`\n${e.message}\n\`\`\``);
+    await msg.edit(`Error\`\`\`\n${(e as Error).message}\n\`\`\``);
   }
   _bState = false;
 }

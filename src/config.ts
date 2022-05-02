@@ -59,3 +59,8 @@ export const dataPath: string = dataDir;
  * API Key for CovidActNow.org
  */
 export const covidAPIKey: string = process.env["COVID_API_KEY"] || "";
+
+/**
+ * API Bearer for Twitter
+ */
+export const twitterAPIKey: string = process.env["TWITTER_API_KEY"] || "";

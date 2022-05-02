@@ -72,7 +72,7 @@ class InterpreterCommand extends Command {
           await msg.edit(emb);
         } catch (e) {
           emb.setColor(0xff0000);
-          const m = trimForDiscord(e.toString(), 1992);
+          const m = trimForDiscord((e as Error).toString(), 1992);
           emb.setDescription(`\`\`\`\n${m.replace(/`/g, "`​")}\n\`\`\``);
           emb.fields[0].value = "Failed";
           await msg.edit(emb);
