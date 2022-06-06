@@ -36,6 +36,7 @@ class TwitterCommand extends Command {
           default: null,
         },
       ],
+      ownerOnly: true,
       category: "util",
       ratelimit: 1,
       cooldown: 600000,
