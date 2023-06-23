@@ -16,7 +16,7 @@ class SubredditCommand extends Command {
       return;
     }
 
-    message.reply(`https://reddit.com/${match[1]}`);
+    message.reply("Fuck u/spez");
   }
 }
 
