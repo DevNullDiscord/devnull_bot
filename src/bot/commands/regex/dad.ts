@@ -18,10 +18,16 @@ class DadBotCommand extends Command {
   }
   exec(message: Message, args: IDadReg) {
     if (Date.now() - lastTime < DAD_COOLDOWN) return; // ignore if cooldown not reached.
-    if (Math.random() > 0.5) {
-      return; // Only do the joke about half of the time
+    if (Math.random() > 0.75) {
+      return;
     }
+
     const sub: string = args.match[1].trim();
+    if (sub.length > 25) {
+      // Don't fire for really long strings
+      return;
+    }
+
     message.reply(`Hi ${sub}, I'm dad.`);
     lastTime = Date.now();
   }
